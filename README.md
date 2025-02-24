@@ -20,3 +20,6 @@ pip install -r requirements.txt
 ```
 
 ### 3️⃣ **Menjalankan Streamlit**
+```sh
+streamlit run dashboard/app.py
+
