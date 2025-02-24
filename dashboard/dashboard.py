@@ -10,10 +10,9 @@ st.set_page_config(page_title="Bike Sharing Dashboard", layout="wide")
 # --- Load Dataset ---
 @st.cache_data
 def load_data():
-    # Pastikan path relatif agar bisa berjalan di semua sistem
+    # Pastikan path dataset relatif
     file_path = os.path.join(os.path.dirname(__file__), "..", "data", "day.csv")
     
-    # Membaca dataset
     df = pd.read_csv(file_path)
     df['dteday'] = pd.to_datetime(df['dteday'])  
     return df
@@ -25,7 +24,7 @@ st.sidebar.header("Filter Data")
 date_range = st.sidebar.date_input("Pilih Rentang Tanggal", 
                                    [df['dteday'].min(), df['dteday'].max()])
 
-# Cek apakah pengguna memilih satu atau dua tanggal
+# Validasi input tanggal
 if isinstance(date_range, tuple) and len(date_range) == 2:
     start_date, end_date = date_range
 elif isinstance(date_range, (list, tuple)):
@@ -34,12 +33,18 @@ else:
     st.error("Harap pilih tanggal yang valid.")
     st.stop()
 
-# Filter data berdasarkan tanggal
+# Filter berdasarkan tanggal
 df_filtered = df[(df['dteday'] >= pd.to_datetime(start_date)) & 
                  (df['dteday'] <= pd.to_datetime(end_date))]
 
-# --- Judul Dashboard ---
+# --- Statistik Penyewaan ---
 st.title("🚲 Bike Sharing Dashboard")
+st.subheader("📊 Statistik Penyewaan")
+
+col1, col2, col3 = st.columns(3)
+col1.metric("Total Penyewaan", f"{df_filtered['cnt'].sum():,}")
+col2.metric("Penyewaan Rata-rata", f"{df_filtered['cnt'].mean():.0f}")
+col3.metric("Penyewaan Maksimum", f"{df_filtered['cnt'].max():,}")
 
 # --- 1. Tren Penyewaan Sepeda Harian ---
 st.subheader("📊 Tren Penyewaan Sepeda Harian")
@@ -71,7 +76,17 @@ ax.set_ylabel("Jumlah Peminjaman")
 ax.set_title("Jumlah Peminjaman Sepeda Berdasarkan Kondisi Cuaca")
 st.pyplot(fig)
 
-# --- 4. Korelasi Antar Variabel ---
+# --- 4. Peminjaman Berdasarkan Hari Kerja / Hari Libur ---
+st.subheader("📅 Peminjaman Berdasarkan Hari Kerja / Hari Libur")
+fig, ax = plt.subplots(figsize=(8, 4))
+sns.barplot(x='workingday', y='cnt', data=df_filtered, errorbar=None, palette="Set2", ax=ax)
+ax.set_xticklabels(["Hari Libur", "Hari Kerja"])
+ax.set_xlabel("Kategori Hari")
+ax.set_ylabel("Jumlah Peminjaman")
+ax.set_title("Perbandingan Peminjaman Sepeda pada Hari Kerja & Libur")
+st.pyplot(fig)
+
+# --- 5. Korelasi Antar Variabel ---
 st.subheader("📈 Korelasi Antar Variabel")
 fig, ax = plt.subplots(figsize=(10, 6))
 sns.heatmap(df_filtered.corr(numeric_only=True), annot=True, cmap="coolwarm", fmt=".2f", linewidths=0.5, ax=ax)
