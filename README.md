@@ -14,7 +14,7 @@ Jika belum, install Python dari [python.org](https://www.python.org/).
 ### 2️⃣ **Clone Repository & Install Dependencies**
 Jalankan perintah berikut di terminal atau command prompt:
 ```sh
-git clone https://github.com/username/Submission_Bike_Sharing.git
+git clone https://github.com/Sholahuddinoob/Bike-Sharing-Dataset.git
 cd Submission_Bike_Sharing
 pip install -r requirements.txt
 ```
