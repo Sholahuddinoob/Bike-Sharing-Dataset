@@ -22,4 +22,11 @@ pip install -r requirements.txt
 ### 3️⃣ **Menjalankan Streamlit**
 ```sh
 streamlit run dashboard/app.py
+```
+Buka browser dan akses http://localhost:8501.
 
+### 📊 **Fitur Dashboard**
+✅ Tren Penyewaan Sepeda Harian
+✅ Peminjaman Berdasarkan Musim
+✅ Peminjaman Berdasarkan Kondisi Cuaca
+✅ Korelasi Antar Variabel
