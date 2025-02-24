@@ -17,5 +17,6 @@ Jalankan perintah berikut di terminal atau command prompt:
 git clone https://github.com/username/Submission_Bike_Sharing.git
 cd Submission_Bike_Sharing
 pip install -r requirements.txt
+```
 
 ### 3️⃣ **Menjalankan Streamlit**
