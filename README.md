@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 ### 3️⃣ **Menjalankan Streamlit**
 ```sh
-streamlit run dashboard/app.py
+streamlit run dashboard/dashboard.py
 ```
 Buka browser dan akses http://localhost:8501.
 
