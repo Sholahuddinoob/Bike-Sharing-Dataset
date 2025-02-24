@@ -3,7 +3,7 @@
 Dashboard interaktif ini dibuat menggunakan **Streamlit** untuk menganalisis **Bike Sharing Dataset**.
 
 ## 📂 Struktur Direktori
-Submission_Bike_Sharing/ │── dashboard/ │ ├── app.py # File utama untuk Streamlit Dashboard │── data/ │ ├── day.csv # Dataset utama yang digunakan │── notebook.ipynb # Jupyter Notebook untuk EDA & analisis │── README.md # Panduan cara menjalankan dashboard │── requirements.txt # Library yang digunakan │── url.txt # URL Streamlit Cloud (jika dideploy)
+Submission_Bike_Sharing/ │── dashboard/ │ ├── dashboard.py # File utama untuk Streamlit Dashboard │── data/ │ ├── day.csv # Dataset utama yang digunakan │── notebook.ipynb # Jupyter Notebook untuk EDA & analisis │── README.md # Panduan cara menjalankan dashboard │── requirements.txt # Library yang digunakan │── url.txt # URL Streamlit Cloud (jika dideploy)
 
 ## 🚀 Cara Menjalankan Dashboard
 
