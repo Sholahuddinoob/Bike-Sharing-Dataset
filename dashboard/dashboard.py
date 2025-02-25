@@ -21,10 +21,12 @@ st.write("Dashboard ini menyajikan visualisasi dan analisis dari dataset Bike Sh
 st.sidebar.header("Filter Data")
 date_range = st.sidebar.date_input("Pilih Rentang Tanggal", 
                                    [day_df['dteday'].min(), day_df['dteday'].max()])
-if isinstance(date_range, tuple):
+
+# Pastikan date_range selalu berupa tuple dengan dua elemen
+if isinstance(date_range, list) and len(date_range) == 2:
     start_date, end_date = date_range
 else:
-    start_date, end_date = date_range, date_range  # Jika hanya satu tanggal, gunakan nilai yang sama
+    start_date = end_date = date_range  # Jika hanya satu tanggal dipilih
 
 # Fitur Interaktif: Filter berdasarkan musim
 season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
