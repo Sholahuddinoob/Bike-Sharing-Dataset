@@ -27,6 +27,16 @@ st.pyplot(fig)
 
 # Waktu Terbaik untuk Promosi
 st.header("Waktu Terbaik untuk Promosi")
+fig, ax = plt.subplots(figsize=(10,5))
+sns.lineplot(x="hr", y="cnt", data=hour_df, estimator=np.sum, marker="o", color="purple", ax=ax)
+ax.set_xlabel("Jam dalam Sehari")
+ax.set_ylabel("Total Peminjaman Sepeda")
+ax.set_title("Pola Peminjaman Sepeda Berdasarkan Jam")
+ax.set_xticks(range(0, 24, 3))  # Tampilkan label jam dengan interval 3
+ax.grid(True, linestyle="--", alpha=0.6)  # Tambahkan grid agar lebih mudah dibaca
+
+# Format angka di sumbu Y agar lebih jelas
+ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: f"{int(x/1000)}K"))
 
 # Agregasi data untuk tren peminjaman berdasarkan jam
 hourly_rentals = hour_df.groupby("hr")["cnt"].sum().reset_index()
