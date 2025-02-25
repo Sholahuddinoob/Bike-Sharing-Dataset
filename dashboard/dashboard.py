@@ -9,15 +9,25 @@ st.set_page_config(page_title="Bike Sharing Dashboard", layout="wide")
 # Judul
 st.title("🚲 Bike Sharing Dashboard")
 
-# Load Dataset
+# Load Dataset dari GitHub
 @st.cache_data
 def load_data():
-    day_df = pd.read_csv(r"C:\Users\Sholahuddin\Documents\Submission1-Sholahuddin\data\day.csv")
-    hour_df = pd.read_csv(r"C:\Users\Sholahuddin\Documents\Submission1-Sholahuddin\data\hour.csv")
-
-    return day_df, hour_df
+    day_url = "https://raw.githubusercontent.com/Sholahuddinoob/Bike-Sharing-Dataset/refs/heads/main/data/day.csv"
+    hour_url = "https://raw.githubusercontent.com/Sholahuddinoob/Bike-Sharing-Dataset/refs/heads/main/data/hour.csv"
+    
+    try:
+        day_df = pd.read_csv(day_url)
+        hour_df = pd.read_csv(hour_url)
+        return day_df, hour_df
+    except Exception as e:
+        st.error(f"Gagal memuat data: {e}")
+        return None, None
 
 day_df, hour_df = load_data()
+
+# Pastikan dataset berhasil dimuat
+if day_df is None or hour_df is None:
+    st.stop()
 
 # Sidebar untuk filter data
 st.sidebar.header("Filter Data")
