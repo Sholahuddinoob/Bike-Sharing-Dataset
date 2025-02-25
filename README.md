@@ -1,32 +1,40 @@
-# 🚲 Bike Sharing Dashboard
+# 🚲 Bike Sharing Dashboard  
 
-Dashboard interaktif ini dibuat menggunakan **Streamlit** untuk menganalisis **Bike Sharing Dataset**.
+Dashboard interaktif ini dibuat menggunakan **Streamlit** untuk menganalisis **Bike Sharing Dataset**. Dashboard ini membantu dalam memahami pola peminjaman sepeda berdasarkan berbagai faktor seperti cuaca, hari kerja, dan waktu.  
 
-## 📂 Struktur Direktori
-Submission_Bike_Sharing/ │── dashboard/ │ ├── dashboard.py # File utama untuk Streamlit Dashboard │── data/ │ ├── day.csv # Dataset utama yang digunakan │── notebook.ipynb # Jupyter Notebook untuk EDA & analisis │── README.md # Panduan cara menjalankan dashboard │── requirements.txt # Library yang digunakan │── url.txt # URL Streamlit Cloud (jika dideploy)
+## 📂 Struktur Direktori  
 
-## 🚀 Cara Menjalankan Dashboard
+Submission_Bike_Sharing/
+│── dashboard/
+│ ├── dashboard.py # File utama untuk Streamlit Dashboard
+│── data/
+│ ├── day.csv # Dataset utama yang digunakan
+│── notebook.ipynb # Jupyter Notebook untuk EDA & analisis
+│── README.md # Panduan cara menjalankan dashboard
+│── requirements.txt # Library yang digunakan
+│── url.txt # URL Streamlit Cloud (jika dideploy)
 
-### 1️⃣ **Persiapan Awal**
-Pastikan **Python** dan **pip** sudah terinstall.  
-Jika belum, install Python dari [python.org](https://www.python.org/).
+## 🚀 Cara Menjalankan Dashboard  
 
-### 2️⃣ **Clone Repository & Install Dependencies**
-Jalankan perintah berikut di terminal atau command prompt:
+### 1️⃣ **Persiapan Awal**  
+Pastikan **Python** dan **pip** sudah terinstall di sistem Anda.  
+Jika belum, silakan install Python dari [python.org](https://www.python.org/downloads/).  
+
+### 2️⃣ **Clone Repository & Install Dependencies**  
+Jalankan perintah berikut di terminal atau command prompt:  
+
 ```sh
 git clone https://github.com/Sholahuddinoob/Bike-Sharing-Dataset.git
-cd Submission_Bike_Sharing
+cd Bike-Sharing-Dataset
 pip install -r requirements.txt
 ```
 
-### 3️⃣ **Menjalankan Streamlit**
-```sh
-streamlit run dashboard/dashboard.py
-```
-Buka browser dan akses http://localhost:8501.
+3️⃣ Menjalankan Streamlit
+Untuk menjalankan dashboard, gunakan perintah berikut:
 
-### 📊 **Fitur Dashboard**
-✅ Tren Penyewaan Sepeda Harian
-✅ Peminjaman Berdasarkan Musim
-✅ Peminjaman Berdasarkan Kondisi Cuaca
-✅ Korelasi Antar Variabel
+sh
+Salin
+Edit
+streamlit run dashboard/dashboard.py
+Setelah dijalankan, buka browser dan akses:
+🔗 http://localhost:8501
