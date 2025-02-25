@@ -70,18 +70,18 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("**🔸 Berdasarkan Hari Kerja**")
     fig, ax = plt.subplots()
-    sns.boxplot(x="workingday", y="cnt", data=day_df, palette="coolwarm", ax=ax)
+    sns.barplot(x="workingday", y="cnt", data=day_df, estimator=sum, errorbar=None, palette="coolwarm", ax=ax)
     ax.set_xticklabels(["Akhir Pekan", "Hari Kerja"])
     ax.set_xlabel("Hari")
-    ax.set_ylabel("Jumlah Peminjaman")
+    ax.set_ylabel("Total Peminjaman")
     st.pyplot(fig)
 
 with col2:
     st.markdown("**🔸 Berdasarkan Cuaca**")
     fig, ax = plt.subplots()
-    sns.boxplot(x="weathersit", y="cnt", data=day_df, palette="coolwarm", ax=ax)
+    sns.barplot(x="weathersit", y="cnt", data=day_df, estimator=sum, errorbar=None, palette="coolwarm", ax=ax)
     ax.set_xlabel("Kondisi Cuaca")
-    ax.set_ylabel("Jumlah Peminjaman")
+    ax.set_ylabel("Total Peminjaman")
     st.pyplot(fig)
 
 # **3. Kapan Waktu Terbaik untuk Promosi?**
