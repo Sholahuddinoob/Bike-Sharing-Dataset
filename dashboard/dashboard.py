@@ -3,6 +3,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
+import datetime
 
 # Load dataset
 day_url = "https://raw.githubusercontent.com/Sholahuddinoob/Bike-Sharing-Dataset/main/data/day.csv"
@@ -22,15 +23,19 @@ st.sidebar.header("Filter Data")
 date_range = st.sidebar.date_input("Pilih Rentang Tanggal", 
                                    [day_df['dteday'].min(), day_df['dteday'].max()])
 
-# Pastikan date_range selalu memiliki dua elemen
-if isinstance(date_range, list) and len(date_range) == 2:
+# Pastikan date_range memiliki dua elemen
+if isinstance(date_range, (list, tuple)) and len(date_range) == 2:
     start_date, end_date = date_range
-else:
+elif isinstance(date_range, pd.Timestamp) or isinstance(date_range, datetime.date):
     start_date = end_date = date_range  # Jika hanya satu tanggal dipilih
+else:
+    st.error("Pilih minimal satu tanggal!")
+    st.stop()
 
-# Konversi start_date dan end_date ke datetime
+# Konversi ke datetime
 start_date = pd.to_datetime(start_date)
 end_date = pd.to_datetime(end_date)
+day_df['dteday'] = pd.to_datetime(day_df['dteday'])  # Pastikan dteday dalam format datetime
 
 # Fitur Interaktif: Filter berdasarkan musim
 season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
