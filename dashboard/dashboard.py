@@ -21,6 +21,8 @@ sns.barplot(x="season", y="cnt", data=day_df, estimator=np.sum, palette="Blues",
 ax.set_xlabel("Musim")
 ax.set_ylabel("Total Peminjaman Sepeda")
 ax.set_title("Total Peminjaman Sepeda Berdasarkan Musim")
+ax.set_xticks([0, 1, 2, 3])  
+ax.set_xticklabels(["Spring", "Summer", "Fall", "Winter"])  # Ubah angka menjadi label musim
 st.pyplot(fig)
 
 # Waktu Terbaik untuk Promosi
