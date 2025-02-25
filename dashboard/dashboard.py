@@ -23,7 +23,7 @@ date_range = st.sidebar.date_input("Pilih Rentang Tanggal",
                                    [day_df['dteday'].min(), day_df['dteday'].max()])
 
 # Pastikan date_range selalu memiliki dua elemen
-if isinstance(date_range, tuple) and len(date_range) == 2:
+if isinstance(date_range, list) and len(date_range) == 2:
     start_date, end_date = date_range
 else:
     start_date = end_date = date_range  # Jika hanya satu tanggal dipilih
@@ -49,7 +49,7 @@ filtered_df = day_df[(day_df['dteday'] >= start_date) &
 # Faktor yang Mempengaruhi Peminjaman
 st.header("Faktor yang Mempengaruhi Peminjaman")
 fig, ax = plt.subplots(figsize=(8,5))
-sns.barplot(x="season", y="cnt", data=filtered_df, estimator=np.sum, palette="Blues", ax=ax)
+sns.barplot(x="season", y="cnt", data=filtered_df, estimator=np.sum, palette="coolwarm", ax=ax)
 ax.set_xlabel("Musim")
 ax.set_ylabel("Total Peminjaman Sepeda")
 ax.set_title("Total Peminjaman Sepeda Berdasarkan Musim")
