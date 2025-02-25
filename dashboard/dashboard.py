@@ -19,7 +19,12 @@ st.write("Dashboard ini menyajikan visualisasi dan analisis dari dataset Bike Sh
 
 # Fitur Interaktif: Filter berdasarkan rentang tanggal
 st.sidebar.header("Filter Data")
-date_range = st.sidebar.date_input("Pilih Rentang Tanggal", [day_df['dteday'].min(), day_df['dteday'].max()])
+date_range = st.sidebar.date_input("Pilih Rentang Tanggal", 
+                                   [day_df['dteday'].min(), day_df['dteday'].max()])
+if isinstance(date_range, tuple):
+    start_date, end_date = date_range
+else:
+    start_date, end_date = date_range, date_range  # Jika hanya satu tanggal, gunakan nilai yang sama
 
 # Fitur Interaktif: Filter berdasarkan musim
 season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
@@ -30,8 +35,8 @@ weather_options = {1: "Clear", 2: "Mist", 3: "Light Rain", 4: "Heavy Rain"}
 selected_weather = st.sidebar.selectbox("Pilih Cuaca", options=list(weather_options.keys()), format_func=lambda x: weather_options[x])
 
 # Terapkan filter pada dataset
-filtered_df = day_df[(day_df['dteday'] >= pd.to_datetime(date_range[0])) & 
-                      (day_df['dteday'] <= pd.to_datetime(date_range[1])) & 
+filtered_df = day_df[(day_df['dteday'] >= pd.to_datetime(start_date)) & 
+                      (day_df['dteday'] <= pd.to_datetime(end_date)) & 
                       (day_df['season'] == selected_season) & 
                       (day_df['weathersit'] == selected_weather)]
 
