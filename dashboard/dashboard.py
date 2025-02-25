@@ -27,8 +27,11 @@ st.pyplot(fig)
 
 # Waktu Terbaik untuk Promosi
 st.header("Waktu Terbaik untuk Promosi")
+# Agregasi data jumlah peminjaman berdasarkan jam
+hourly_rentals = hour_df.groupby("hr")["cnt"].sum().reset_index()
+
 fig, ax = plt.subplots(figsize=(10,5))
-sns.lineplot(x="hr", y="cnt", data=hour_df, estimator=np.sum, marker="o", color="purple", ax=ax)
+sns.lineplot(x="hr", y="cnt", data=hourly_rentals, marker="o", color="purple", ax=ax)
 ax.set_xlabel("Jam dalam Sehari")
 ax.set_ylabel("Total Peminjaman Sepeda")
 ax.set_title("Pola Peminjaman Sepeda Berdasarkan Jam")
@@ -37,5 +40,18 @@ ax.grid(True, linestyle="--", alpha=0.6)  # Tambahkan grid agar lebih mudah diba
 
 # Format angka di sumbu Y agar lebih jelas
 ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: f"{int(x/1000)}K"))
+st.pyplot(fig)
 
+# Pola Peminjaman Berdasarkan Hari dalam Seminggu
+st.header("Pola Peminjaman Berdasarkan Hari")
+# Agregasi data jumlah peminjaman berdasarkan hari dalam seminggu
+daily_rentals = day_df.groupby("weekday")["cnt"].sum().reset_index()
+
+fig, ax = plt.subplots(figsize=(8,5))
+sns.barplot(x="weekday", y="cnt", data=daily_rentals, hue="weekday", palette="Oranges", legend=False, ax=ax)
+ax.set_xlabel("Hari dalam Seminggu")
+ax.set_ylabel("Total Peminjaman Sepeda")
+ax.set_title("Pola Peminjaman Sepeda Berdasarkan Hari dalam Seminggu")
+ax.set_xticks(range(0,7))
+ax.set_xticklabels(["Ahad", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"])
 st.pyplot(fig)
