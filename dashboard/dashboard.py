@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-import datetime
 
 # Load dataset
 day_url = "https://raw.githubusercontent.com/Sholahuddinoob/Bike-Sharing-Dataset/main/data/day.csv"
@@ -20,51 +19,30 @@ st.write("Dashboard ini menyajikan visualisasi dan analisis dari dataset Bike Sh
 
 # Fitur Interaktif: Filter berdasarkan rentang tanggal
 st.sidebar.header("Filter Data")
-date_range = st.sidebar.date_input("Pilih Rentang Tanggal", 
-                                   [day_df['dteday'].min(), day_df['dteday'].max()])
-
-# Pastikan date_range memiliki dua elemen
-if isinstance(date_range, (list, tuple)) and len(date_range) == 2:
-    start_date, end_date = date_range
-elif isinstance(date_range, pd.Timestamp) or isinstance(date_range, datetime.date):
-    start_date = end_date = date_range  # Jika hanya satu tanggal dipilih
-else:
-    st.error("Pilih minimal satu tanggal!")
-    st.stop()
-
-# Konversi ke datetime
-start_date = pd.to_datetime(start_date)
-end_date = pd.to_datetime(end_date)
-day_df['dteday'] = pd.to_datetime(day_df['dteday'])  # Pastikan dteday dalam format datetime
+date_range = st.sidebar.date_input("Pilih Rentang Tanggal", [day_df['dteday'].min(), day_df['dteday'].max()])
 
 # Fitur Interaktif: Filter berdasarkan musim
-season_options = {0: "All", 1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
+season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
 selected_season = st.sidebar.selectbox("Pilih Musim", options=list(season_options.keys()), format_func=lambda x: season_options[x])
 
 # Fitur Interaktif: Filter berdasarkan cuaca
-weather_options = {0: "All", 1: "Clear", 2: "Mist", 3: "Light Rain", 4: "Heavy Rain"}
+weather_options = {1: "Clear", 2: "Mist", 3: "Light Rain", 4: "Heavy Rain"}
 selected_weather = st.sidebar.selectbox("Pilih Cuaca", options=list(weather_options.keys()), format_func=lambda x: weather_options[x])
 
 # Terapkan filter pada dataset
-filtered_df = day_df[(day_df['dteday'] >= start_date) & (day_df['dteday'] <= end_date)]
-if selected_season != 0:
-    filtered_df = filtered_df[filtered_df['season'] == selected_season]
-if selected_weather != 0:
-    filtered_df = filtered_df[filtered_df['weathersit'] == selected_weather]
-
-# Tampilkan pesan jika tidak ada data
-if filtered_df.empty:
-    st.warning("Tidak ada data yang tersedia untuk filter yang dipilih.")
-    st.stop()
+filtered_df = day_df[(day_df['dteday'] >= pd.to_datetime(date_range[0])) & 
+                      (day_df['dteday'] <= pd.to_datetime(date_range[1])) & 
+                      (day_df['season'] == selected_season) & 
+                      (day_df['weathersit'] == selected_weather)]
 
 # Faktor yang Mempengaruhi Peminjaman
 st.header("Faktor yang Mempengaruhi Peminjaman")
 fig, ax = plt.subplots(figsize=(8,5))
-sns.barplot(x="season", y="cnt", data=filtered_df, estimator=np.sum, palette="coolwarm", ax=ax)
+sns.barplot(x="season", y="cnt", data=filtered_df, estimator=np.sum, palette="Blues", ax=ax)
 ax.set_xlabel("Musim")
 ax.set_ylabel("Total Peminjaman Sepeda")
 ax.set_title("Total Peminjaman Sepeda Berdasarkan Musim")
-ax.set_xticks(range(1, 5))  
+ax.set_xticks([0, 1, 2, 3])  
 ax.set_xticklabels(["Spring", "Summer", "Fall", "Winter"])
 st.pyplot(fig)
 
