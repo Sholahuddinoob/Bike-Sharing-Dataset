@@ -19,7 +19,7 @@ st.write("Dashboard ini menyajikan visualisasi dan analisis dari dataset Bike Sh
 
 # Fitur Interaktif: Filter berdasarkan rentang tanggal
 st.sidebar.header("Filter Data")
-date_range = st.sidebar.date_input("Pilih Rentang Tanggal", [day_df['dteday'].min(), day_df['dteday'].max()])
+date_range = st.sidebar.date_input("Pilih Rentang Tanggal", (day_df['dteday'].min(), day_df['dteday'].max()))
 
 # Fitur Interaktif: Filter berdasarkan musim
 season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
@@ -42,35 +42,37 @@ sns.barplot(x="season", y="cnt", data=filtered_df, estimator=np.sum, palette="Bl
 ax.set_xlabel("Musim")
 ax.set_ylabel("Total Peminjaman Sepeda")
 ax.set_title("Total Peminjaman Sepeda Berdasarkan Musim")
-ax.set_xticks([0, 1, 2, 3])  
+ax.set_xticks(range(4))
 ax.set_xticklabels(["Spring", "Summer", "Fall", "Winter"])
 st.pyplot(fig)
 
-# Waktu Terbaik untuk Promosi
-st.header("Waktu Terbaik untuk Promosi")
-# Agregasi data jumlah peminjaman berdasarkan jam
-hourly_rentals = hour_df.groupby("hr")["cnt"].sum().reset_index()
-
-fig, ax = plt.subplots(figsize=(10,5))
-sns.lineplot(x="hr", y="cnt", data=hourly_rentals, marker="o", color="purple", ax=ax)
-ax.set_xlabel("Jam dalam Sehari")
-ax.set_ylabel("Total Peminjaman Sepeda")
-ax.set_title("Pola Peminjaman Sepeda Berdasarkan Jam")
-ax.set_xticks(range(0, 24, 3))
-ax.grid(True, linestyle="--", alpha=0.6)
-ax.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, loc: f"{int(x/1000)}K"))
-st.pyplot(fig)
-
-# Pola Peminjaman Berdasarkan Hari dalam Seminggu
-st.header("Pola Peminjaman Berdasarkan Hari")
-# Agregasi data jumlah peminjaman berdasarkan hari dalam seminggu
-daily_rentals = filtered_df.groupby("weekday")["cnt"].sum().reset_index()
-
+# Scatter Plot: Hubungan Suhu dan Peminjaman
+st.header("Hubungan Suhu dan Peminjaman")
 fig, ax = plt.subplots(figsize=(8,5))
-sns.barplot(x="weekday", y="cnt", data=daily_rentals, hue="weekday", palette="Oranges", legend=False, ax=ax)
-ax.set_xlabel("Hari dalam Seminggu")
-ax.set_ylabel("Total Peminjaman Sepeda")
-ax.set_title("Pola Peminjaman Sepeda Berdasarkan Hari dalam Seminggu")
-ax.set_xticks(range(0,7))
-ax.set_xticklabels(["Ahad", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"])
+sns.scatterplot(x="temp", y="cnt", data=filtered_df, alpha=0.5, ax=ax)
+ax.set_xlabel("Suhu")
+ax.set_ylabel("Jumlah Peminjaman Sepeda")
+ax.set_title("Hubungan Suhu dan Peminjaman Sepeda")
 st.pyplot(fig)
+
+# Boxplot: Distribusi Peminjaman Sepeda Berdasarkan Hari Kerja/Libur
+st.header("Distribusi Peminjaman Berdasarkan Hari Kerja")
+fig, ax = plt.subplots(figsize=(8,5))
+sns.boxplot(x="workingday", y="cnt", data=filtered_df, palette="coolwarm", ax=ax)
+ax.set_xlabel("Hari Kerja (0 = Libur, 1 = Kerja)")
+ax.set_ylabel("Jumlah Peminjaman Sepeda")
+ax.set_title("Distribusi Peminjaman Sepeda Berdasarkan Hari Kerja")
+st.pyplot(fig)
+
+# Heatmap Korelasi Faktor-Faktor terhadap Peminjaman Sepeda
+st.header("Korelasi Faktor-Faktor terhadap Peminjaman")
+fig, ax = plt.subplots(figsize=(10,6))
+corr_matrix = filtered_df[["cnt", "temp", "hum", "windspeed", "season", "weathersit", "workingday"]].corr()
+sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", ax=ax)
+ax.set_title("Korelasi Faktor-Faktor terhadap Peminjaman Sepeda")
+st.pyplot(fig)
+
+# Ringkasan Insight
+st.header("Ringkasan Insight")
+st.write("1. Musim dan kondisi cuaca memiliki pengaruh signifikan terhadap jumlah peminjaman sepeda. Musim gugur memiliki peminjaman tertinggi, sedangkan cuaca buruk menurunkan jumlah peminjaman.")
+st.write("2. Suhu memiliki korelasi positif dengan peminjaman sepeda. Semakin hangat suhu, semakin tinggi jumlah peminjaman, sementara faktor seperti kelembaban dan kecepatan angin memiliki pengaruh yang lebih kecil.")
