@@ -1,2 +1,2 @@
 https://github.com/Sholahuddinoob/Bike-Sharing-Dataset
-https://bike-sharing-dataset-hadkaznnr27hfa9fyckb7t.streamlit.app/
+https://bike-sharing-dataset-afpktkrm3hnz6gg4d9kqdo.streamlit.app/
