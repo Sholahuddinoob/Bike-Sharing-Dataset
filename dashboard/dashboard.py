@@ -22,11 +22,15 @@ st.sidebar.header("Filter Data")
 date_range = st.sidebar.date_input("Pilih Rentang Tanggal", 
                                    [day_df['dteday'].min(), day_df['dteday'].max()])
 
-# Pastikan date_range selalu berupa tuple dengan dua elemen
-if isinstance(date_range, list) and len(date_range) == 2:
+# Pastikan date_range selalu memiliki dua elemen
+if isinstance(date_range, tuple) and len(date_range) == 2:
     start_date, end_date = date_range
 else:
     start_date = end_date = date_range  # Jika hanya satu tanggal dipilih
+
+# Konversi start_date dan end_date ke datetime
+start_date = pd.to_datetime(start_date)
+end_date = pd.to_datetime(end_date)
 
 # Fitur Interaktif: Filter berdasarkan musim
 season_options = {1: "Spring", 2: "Summer", 3: "Fall", 4: "Winter"}
@@ -37,8 +41,8 @@ weather_options = {1: "Clear", 2: "Mist", 3: "Light Rain", 4: "Heavy Rain"}
 selected_weather = st.sidebar.selectbox("Pilih Cuaca", options=list(weather_options.keys()), format_func=lambda x: weather_options[x])
 
 # Terapkan filter pada dataset
-filtered_df = day_df[(day_df['dteday'] >= pd.to_datetime(start_date)) & 
-                      (day_df['dteday'] <= pd.to_datetime(end_date)) & 
+filtered_df = day_df[(day_df['dteday'] >= start_date) & 
+                      (day_df['dteday'] <= end_date) & 
                       (day_df['season'] == selected_season) & 
                       (day_df['weathersit'] == selected_weather)]
 
